@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //permite manejar las escenas de Unity desde el código
+
 
 public class Controller_Player : MonoBehaviour
 {
@@ -14,12 +16,12 @@ public class Controller_Player : MonoBehaviour
     public GameObject missileProjectile;
     public GameObject laserProjectile;
     public GameObject option;
-    public int powerUpCount=0;
+    public int powerUpCount = 0;
 
     internal bool doubleShoot;
     internal bool missiles;
     internal float missileCount;
-    internal float shootingCount=0;
+    internal float shootingCount = 0;
     internal bool forceField;
     internal bool laserOn;
 
@@ -33,9 +35,12 @@ public class Controller_Player : MonoBehaviour
     internal GameObject laser;
 
     //private List<Controller_Option> options;
-    
+
     public static Controller_Player _Player;
-    
+
+    // Variable para consignas
+    public GameObject PowerUp;
+    public Transform enemigo;
     private void Awake()
     {
         if (_Player == null)
@@ -47,7 +52,8 @@ public class Controller_Player : MonoBehaviour
                 _Player = container.AddComponent<Controller_Player>();
             }
             //Debug.Log("Player==null");
-            DontDestroyOnLoad(_Player);
+
+            //DontDestroyOnLoad(_Player);
         }
         else
         {
@@ -72,21 +78,21 @@ public class Controller_Player : MonoBehaviour
 
     private void Update()
     {
-        CheckForceField();
+        //CheckForceField();
         ActionInput();
     }
 
-    private void CheckForceField()
-    {
-        if (forceField)
-        {
-            render.material.color = Color.blue;
-        }
-        else
-        {
-            render.material.color = Color.red;
-        }
-    }
+    //private void CheckForceField()
+    //{
+    //    if (forceField)
+    //    {
+    //        render.material.color = Color.blue;
+    //    }
+    //    else
+    //    {
+    //        render.material.color = Color.red;
+    //    }
+    //}
 
     public virtual void FixedUpdate()
     {
@@ -97,16 +103,16 @@ public class Controller_Player : MonoBehaviour
     {
         missileCount -= Time.deltaTime;
         shootingCount -= Time.deltaTime;
-        if (Input.GetKey(KeyCode.O) && shootingCount < 0)
+        float spawnDist = 1;
+        if (Input.GetKey(KeyCode.Space) && shootingCount < 0)
         {
             if (OnShooting != null)
             {
                 OnShooting();
             }
 
-
-            Instantiate(projectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-
+            //Instantiate(projectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+            Instantiate(projectile, transform.position + spawnDist * transform.forward, transform.rotation); // ahora las balas se instancian en el "adelante" del player
 
             shootingCount = 0.1f;
         }
@@ -117,15 +123,36 @@ public class Controller_Player : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(speed* inputX,speed * inputY);
+        Vector3 movement = new Vector3(speed * inputX, speed * inputY);
         rb.velocity = movement;
         if (Input.GetKey(KeyCode.W))
         {
             lastKeyUp = true;
-        }else
+        }
+        else
         if (Input.GetKey(KeyCode.S))
         {
             lastKeyUp = false;
+        }
+
+        if(movement != Vector3.zero) //chequeamos si el jugador se está moviendo verificando si el movimiento del vector de transform no es 0
+        {
+            transform.forward = movement; //si es true, programamos que la dirección "adelante" sea conforme a nuestro movimiento
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "PowerUp")
+        {
+            speed += 5;
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.name == "Enemigo")
+        {
+            //Destroy(gameObject);
+            SceneManager.LoadScene(0);
         }
     }
 

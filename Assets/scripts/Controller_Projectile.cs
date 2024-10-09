@@ -23,6 +23,8 @@ public class Controller_Projectile : Projectile
 
     public virtual void ProjectileDirection()
     {
-        rb.velocity = new Vector3(1 * projectileSpeed, rb.velocity.y, 0);
+        //rb.velocity = new Vector3(1 * projectileSpeed, rb.velocity.y, 0);
+        transform.position += Time.deltaTime * projectileSpeed * transform.forward; // la posición es una relación entre nuestro framerate, la velocidad del proyectil y el "adelante" que nuestro player nos seteó
     }
+
 }
