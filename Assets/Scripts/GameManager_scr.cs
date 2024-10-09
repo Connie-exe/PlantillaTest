@@ -5,14 +5,11 @@ using UnityEngine.SceneManagement; //permite manejar las escenas de Unity desde 
 
 public class GameManager_scr : MonoBehaviour
 {
-    //string currentSceneName = SceneManager.GetActiveScene().name;
-    // Start is called before the first frame update
+
     void Start()
     {
         
     }
-
-    // Update is called once per frame
     void Update()
     {
         ReloadScene();

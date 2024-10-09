@@ -47,11 +47,11 @@ public class Controller_Enemy : MonoBehaviour
 	}
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "proyectil(Clone)")
+        if (collision.gameObject.name == "proyectil(Clone)") //si colisionamos con un objeto de nombre "proyectil(Clone)"
         {
-            puntos += 10;
-            txt_puntos.text = "Puntos: " + puntos;
-            Destroy(gameObject);
+            puntos += 10; //se agregan 10 puntos a nuestra variable
+            txt_puntos.text = "Puntos: " + puntos; // se actualiza la información en nuestro texto
+            Destroy(gameObject); // se destruye el gameobject que tiene asignado este script, en este caso el Enemigo
         }
     }
 

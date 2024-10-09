@@ -103,8 +103,8 @@ public class Controller_Player : MonoBehaviour
     {
         missileCount -= Time.deltaTime;
         shootingCount -= Time.deltaTime;
-        float spawnDist = 1;
-        if (Input.GetKey(KeyCode.Space) && shootingCount < 0)
+        float spawnDist = 1; //la distancia del spawneo sirve para que la bala no salga justo del centro del juegador
+        if (Input.GetKey(KeyCode.Space) && shootingCount < 0) //cambiamos el keycode para que se pueda dispara con la barra espaciadora
         {
             if (OnShooting != null)
             {
@@ -143,16 +143,16 @@ public class Controller_Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "PowerUp")
+        if (collision.gameObject.name == "PowerUp") //si colisionamos con un objeto de nombre "PowerUp"
         {
-            speed += 5;
-            Destroy(collision.gameObject);
+            speed += 5; //sumamos 5 a la variable speed
+            Destroy(collision.gameObject); // se destruye el objeto con el que colisionamos
         }
 
-        if (collision.gameObject.name == "Enemigo")
+        if (collision.gameObject.name == "Enemigo") //si colisionamos con un objeto de nombre "Enemigo"
         {
             //Destroy(gameObject);
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(0); // se recarga la escena
         }
     }
 
