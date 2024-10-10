@@ -53,7 +53,7 @@ public class Controller_Player : MonoBehaviour
             }
             //Debug.Log("Player==null");
 
-            //DontDestroyOnLoad(_Player);
+           //DontDestroyOnLoad(_Player);
         }
         else
         {
@@ -146,7 +146,8 @@ public class Controller_Player : MonoBehaviour
         if (collision.gameObject.name == "PowerUp") //si colisionamos con un objeto de nombre "PowerUp"
         {
             speed += 5; //sumamos 5 a la variable speed
-            Destroy(collision.gameObject); // se destruye el objeto con el que colisionamos
+            //Destroy(collision.gameObject); // se destruye el objeto con el que colisionamos
+            collision.gameObject.SetActive(false);
         }
 
         if (collision.gameObject.name == "Enemigo") //si colisionamos con un objeto de nombre "Enemigo"
@@ -155,5 +156,6 @@ public class Controller_Player : MonoBehaviour
             SceneManager.LoadScene(0); // se recarga la escena
         }
     }
+
 
 }

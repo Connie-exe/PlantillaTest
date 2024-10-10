@@ -9,7 +9,7 @@ public class Controller_Enemy : MonoBehaviour
 	private Transform target;
 	public float minDist;
     public float speed;
-    private Rigidbody rb_enemy;
+    //private Rigidbody rb_enemy;
 
     //Variables para Consignas
     public Text txt_puntos;
@@ -33,16 +33,16 @@ public class Controller_Enemy : MonoBehaviour
 	{
 		// Si no existe el target que no ejecute las líneas siguientes. Así ahorramos errores.
 		if (target == null)
-			return;
+			return; //volvete flaco
 
 		// Mira al target
 		transform.LookAt(target);
 
 		// Mide la distancia entre este objeto (que tiene asignado este script) y el target (posición del Player)
-		float distance = Vector3.Distance(transform.position, target.position);
+		float distanciaentreñeris = Vector3.Distance(transform.position, target.position);
 
 		// Si el target está más lejos que la distancia mínima el enemigo lo persigue
-		if (distance > minDist)
+		if (distanciaentreñeris > minDist)
 			transform.position += transform.forward * speed * Time.deltaTime; //se modifica la posición del enemigo con respecto a la velocidad que le asignamos y se mueve hacia adelante
 	}
     private void OnCollisionEnter(Collision collision)
@@ -52,6 +52,8 @@ public class Controller_Enemy : MonoBehaviour
             puntos += 10; //se agregan 10 puntos a nuestra variable
             txt_puntos.text = "Puntos: " + puntos; // se actualiza la información en nuestro texto
             Destroy(gameObject); // se destruye el gameobject que tiene asignado este script, en este caso el Enemigo
+            Destroy(collision.gameObject);
+
         }
     }
 
